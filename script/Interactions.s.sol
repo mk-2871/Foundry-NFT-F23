@@ -16,6 +16,7 @@ contract MintBasicNft is Script {
     }
 
     function mintNftOnContract(address contractAddress) public {
+        string memory file = vm.readFile("./broadcast/BasicNft.json");
         vm.startBroadcast();
         BasicNft(contractAddress).mintNft(PUG);
         vm.stopBroadcast();
