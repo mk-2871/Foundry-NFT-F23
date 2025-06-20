@@ -9,6 +9,7 @@ out/
 
 # Docs
 docs/
+Readme.md
 
 # Dotenv file
 .env
