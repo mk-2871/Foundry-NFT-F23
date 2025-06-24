@@ -16,15 +16,13 @@ contract DeployMoodNftTest is Test {
 
     function testConvertSvgToURI() public view {
         // 1. Define the input SVG string
-        string
-            memory svg = '<svg xmlns="https://www.w3.org/2000/svg" width="500" height="500"><text x="0" y="15" fill="black">Hi! Your browser decoded this</text></svg>';
+        string memory svg =
+            '<svg xmlns="https://www.w3.org/2000/svg" width="500" height="500"><text x="0" y="15" fill="black">Hi! Your browser decoded this</text></svg>';
 
         // 2. Construct the expected URI by applying the same logic as the function under test
         string memory baseURL = "data:image/svg+xml;base64,";
         string memory svgBase64Encoded = Base64.encode(bytes(svg));
-        string memory expectedUri = string(
-            abi.encodePacked(baseURL, svgBase64Encoded)
-        );
+        string memory expectedUri = string(abi.encodePacked(baseURL, svgBase64Encoded));
 
         // 3. Call the actual function
         string memory actualUri = deployer.svgToImageURI(svg);
