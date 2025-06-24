@@ -15,12 +15,22 @@ contract DeployMoodNftTest is Test {
     }
 
     function testConvertSvgToURI() public view {
-        string memory expectedUri =
-            "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIGZpbGw9InllbGxvdyIgcj0iNzgiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMyIgLz4KICAgIDxnIGNsYXNzPSJleWVzIj4KICAgICAgICA8Y2lyY2xlIGN4PSI3MCIgY3k9IjgyIiByPSIxMiIgLz4KICAgICAgICA8Y2lyY2xlIGN4PSIxMjciIGN5PSI4MiIgcj0iMTIiIC8+CiAgICA8L2c+CiAgICA8cGF0aCBkPSJtMTM2LjgxIDExNi41M2MuNjkgMjYuMTctNjQuMTEgNDItODEuNTItLjczIiBzdHlsZT0iZmlsbDpub25lOyBzdHJva2U6IGJsYWNrOyBzdHJva2Utd2lkdGg6IDM7IiAvPgo8L3N2Zz4=";
-        string memory svg =
-            '<svg xmlns="https://www.w3.org/2000/svg" width="500" height="500"><text x="0" y="15" fill="black">Hi! Your browser decoded this</text></svg>';
-        string memory svgBase64Encoded = Base64.encode(bytes(string(abi.encodePacked(svg))));
+        // 1. Define the input SVG string
+        string
+            memory svg = '<svg xmlns="https://www.w3.org/2000/svg" width="500" height="500"><text x="0" y="15" fill="black">Hi! Your browser decoded this</text></svg>';
+
+        // 2. Construct the expected URI by applying the same logic as the function under test
+        string memory baseURL = "data:image/svg+xml;base64,";
+        string memory svgBase64Encoded = Base64.encode(bytes(svg));
+        string memory expectedUri = string(
+            abi.encodePacked(baseURL, svgBase64Encoded)
+        );
+
+        // 3. Call the actual function
         string memory actualUri = deployer.svgToImageURI(svg);
-        assert(keccak256(abi.encodePacked(actualUri)) == keccak256(abi.encodePacked(expectedUri)));
+
+        // 4. Assert that the actual and expected URIs are identical.
+        //    Using assertEq gives better error messages than comparing hashes.
+        assertEq(actualUri, expectedUri);
     }
 }
