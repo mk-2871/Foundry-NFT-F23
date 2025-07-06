@@ -21,7 +21,9 @@ contract DeployMoodNft is Script {
         string memory baseURL = "data:image/svg+xml;base64,";
         string memory svgBase64Encoded = Base64.encode((bytes(string(abi.encodePacked(svg)))));
         return string(abi.encodePacked(baseURL, svgBase64Encoded));
-        //Checks if the SVG is valid
+        //Checks if the SVG is valid, if not, it will revert
+        //require(bytes(svg).length > 0, "SVG cannot be empty");
+        //return string(abi.encodePacked(baseURL, Base64.encode(bytes(svg))));
         
     }
 }
